@@ -11,6 +11,7 @@
     <!-- второй прошёл -->
     <!-- третий прошёл - узнал про директивы v-show/if/else-if -->
     <!-- прошёл четвёртый урок, про перебор массивов и ренедеринг списков -->
+    <!-- прошёл пятый урок, про обработку событий и ключевое слово this (дополнительно нужно ещё прочитать про него) -->
     <section id="app">
         <div class="product">
         <div class="product-image">
@@ -23,7 +24,7 @@
             <li v-for="detail in details">{{ detail }}</li>
             </ul>
             <div v-for="variant in variants" :key="variant.variantId"> <!-- атрибут :key позволяет отслеживать идентичность элементов и рекомендуется к использованию. при использовании v-for рекомендуется назначать каждому выводимому элементу уникальный ключ. . всё равно не понял :) -->
-            <p class="socks-color" @click="updateProduct(variant.variantImage)">{{ variant.variantColor}}</p>
+            <p class="socks-color" @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor}}</p>
             <!-- @ - это сокращённый вариант записи директивы v-on -->
             </div>
             <ul>
@@ -37,6 +38,7 @@
             <div class="cart">
             <p>{{cart}} items in cart</p>
             <button v-on:click="addToCart">Add "{{product}}" in cart</button>
+            <button @click="lessOne">delete one "{{product}}"</button>
             <button v-on:click="clearCart">Clear cart</button>
             </div>
         </div>

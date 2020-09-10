@@ -32,10 +32,6 @@
     opacity: 0.6;
   }
   
-  .socks-color:active {
-    opacity: 0.3;
-  }
-  
   /*  cart styles */
   
   .cart button {
