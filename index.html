@@ -12,20 +12,28 @@
     <!-- третий прошёл - узнал про директивы v-show/if/else-if -->
     <!-- прошёл четвёртый урок, про перебор массивов и ренедеринг списков -->
     <!-- прошёл пятый урок, про обработку событий и ключевое слово this (дополнительно нужно ещё прочитать про него) -->
+    <!-- прошёл шестой урок при привязку классов и стилей -->
     <section id="app">
         <div class="product">
         <div class="product-image">
-            <img v-bind:src="image" :alt="altText"/> <!-- v-bind это директива, используется для реактивного обновления атрибутов HTML. директивы используются для работы с атрибутами тегов. то есть нельзя в лоб указать объект в усах -->
+            <img v-bind:src="image" :alt="altText"/> <!-- v-bind это директива, используется для реактивного обновления атрибутов HTML. директивы используются для работы с атрибутами тегов.
+                то есть для атрибута нельзя в лоб указать объект в усах -->
         </div>
         <div class="product-info">
-            <h1>{{ product }}</h1>
+            <h1>{{ title }}</h1>
             <p>{{ description }}</p>
             <ul>
             <li v-for="detail in details">{{ detail }}</li>
             </ul>
-            <div v-for="variant in variants" :key="variant.variantId"> <!-- атрибут :key позволяет отслеживать идентичность элементов и рекомендуется к использованию. при использовании v-for рекомендуется назначать каждому выводимому элементу уникальный ключ. . всё равно не понял :) -->
-            <p class="socks-color" @mouseover="updateProduct(variant.variantImage)">{{ variant.variantColor}}</p>
+            <div
+                class="box-color"
+                v-for="variant in variants"
+                :key="variant.variantId"
+                :style="{ backgroundColor:variant.variantColor }"
+                @click="updateProduct(variant.variantImage)"
+            >
             <!-- @ - это сокращённый вариант записи директивы v-on -->
+            <!-- атрибут :key позволяет отслеживать идентичность элементов и рекомендуется к использованию. при использовании v-for рекомендуется назначать каждому выводимому элементу уникальный ключ. . всё равно не понял :) -->
             </div>
             <ul>
             <li v-for="size in sizes">{{size}}</li>
@@ -33,12 +41,19 @@
             <a :href="link" target="_blank">More products like this</a>
             <p v-if="inventory > 10">In stock</p>
             <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
-            <p v-else>Out of stock</p>
+            <p 
+                v-else
+                :class="{'out-of-stock': !inStock}"
+            >Out of stock</p>
             <span v-show="onSale">Sale now!</span>
             <div class="cart">
             <p>{{cart}} items in cart</p>
-            <button v-on:click="addToCart">Add "{{product}}" in cart</button>
-            <button @click="lessOne">delete one "{{product}}"</button>
+            <button
+                @click="addToCart"
+                :disabled="!inStock"
+                :class="{'disabled-button': !inStock}"
+            >Add "{{title}}" in cart</button>
+            <button @click="lessOne">delete one "{{title}}"</button>
             <button v-on:click="clearCart">Clear cart</button>
             </div>
         </div>
