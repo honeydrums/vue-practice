@@ -4,11 +4,9 @@ var app = new Vue({ // экземпляр vue - корневая сущност�
       brand: 'Vue Mastery',
       product: 'Socks', // product - свойство объекта data
       description: 'A pair of warm, fuzzy socks',
-      image: 'https://habrastorage.org/getpro/habr/post_images/1fb/1cb/7d2/1fb1cb7d28670803a16c9776e4f6b435.png',
+      selectedVariant: 0,
       altText: 'a pair of socks',
       link: 'https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks',
-      inStock: false,
-      onSale: true,
       inventory: 0,
       details: 
         ['80% cotton', '20% polyester', 'gender-neutral'],
@@ -16,12 +14,16 @@ var app = new Vue({ // экземпляр vue - корневая сущност�
         {
           variantId: 2234,
           variantColor: 'blue',
-          variantImage: 'https://habrastorage.org/getpro/habr/post_images/1fb/1cb/7d2/1fb1cb7d28670803a16c9776e4f6b435.png'
+          variantImage: 'https://habrastorage.org/getpro/habr/post_images/1fb/1cb/7d2/1fb1cb7d28670803a16c9776e4f6b435.png',
+          variantQuantity: 10,
+          onSale: true
         },
         {
           variantId: 2235,
           variantColor: 'green',
-          variantImage: 'https://habrastorage.org/getpro/habr/post_images/d7b/a8f/327/d7ba8f3277026ac0d9fbceaa4f688f6c.png'
+          variantImage: 'https://habrastorage.org/getpro/habr/post_images/d7b/a8f/327/d7ba8f3277026ac0d9fbceaa4f688f6c.png',
+          variantQuantity: 0,
+          onSale: false
         }
       ],
       sizes:
@@ -43,8 +45,9 @@ var app = new Vue({ // экземпляр vue - корневая сущност�
       clearCart() {
         this.cart = 0
       },
-      updateProduct(variantImage) { // создадим метод updateProduct и передадим ему параметр variantImage
-        this.image = variantImage // и затем запишем в свойство image то, что попадёт в метод после клика по отслеживаемому элементу
+      updateProduct(index) { // создадим метод updateProduct и передадим ему параметр variantImage
+        this.selectedVariant = index;
+        console.log(index); // и затем запишем в свойство image то, что попадёт в метод после клика по отслеживаемому элементу
         // этот метод годен только в том случае, если нужно получить только один параметр (в нашем случае цвет)
         // следовательно нужно устанавливать свойство на основе индекса
       }
@@ -52,6 +55,19 @@ var app = new Vue({ // экземпляр vue - корневая сущност�
     computed: { // в этом объекте лежат вычисляемые свойства
         title() {
             return this.brand + ' ' + this.product
+        },
+        image() {
+            return this.variants[this.selectedVariant].variantImage
+        },
+        inStock() {
+            return this.variants[this.selectedVariant].variantQuantity
+        },
+        sale() {
+            if (this.variants[this.selectedVariant].onSale) {
+                return this.brand + ' ' + this.product + ' are on sale now!'
+            } else {
+                return this.brand + ' ' + this.product + ' are not on sale now!'
+            }
         }
     }
   });

@@ -12,7 +12,8 @@
     <!-- третий прошёл - узнал про директивы v-show/if/else-if -->
     <!-- прошёл четвёртый урок, про перебор массивов и ренедеринг списков -->
     <!-- прошёл пятый урок, про обработку событий и ключевое слово this (дополнительно нужно ещё прочитать про него) -->
-    <!-- прошёл шестой урок при привязку классов и стилей -->
+    <!-- прошёл шестой урок про привязку классов и стилей -->
+    <!-- прошёл седьмой урок про вычисление свойств -->
     <section id="app">
         <div class="product">
         <div class="product-image">
@@ -22,15 +23,16 @@
         <div class="product-info">
             <h1>{{ title }}</h1>
             <p>{{ description }}</p>
+            <span>{{ sale }}</span>
             <ul>
             <li v-for="detail in details">{{ detail }}</li>
             </ul>
             <div
                 class="box-color"
-                v-for="variant in variants"
+                v-for="(variant, index) in variants"
                 :key="variant.variantId"
                 :style="{ backgroundColor:variant.variantColor }"
-                @click="updateProduct(variant.variantImage)"
+                @click="updateProduct(index)"
             >
             <!-- @ - это сокращённый вариант записи директивы v-on -->
             <!-- атрибут :key позволяет отслеживать идентичность элементов и рекомендуется к использованию. при использовании v-for рекомендуется назначать каждому выводимому элементу уникальный ключ. . всё равно не понял :) -->
